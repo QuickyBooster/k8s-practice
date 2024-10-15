@@ -3,12 +3,18 @@ package main
 import (
 	"booster/first-api/device"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type server struct {
 	state int
+
+	// prometheus metrics
+	// metrics *metrics
 }
 
 func NewServer() *server {
@@ -45,17 +51,19 @@ func (s *server) getInfo(w http.ResponseWriter, req *http.Request) {
 	w.Write([]byte("stdlib"))
 }
 
-func (s *server) getReady(w http.ResponseWriter, req *http.Request){
+func (s *server) getReady(w http.ResponseWriter, req *http.Request) {
 	w.Write([]byte(`OK`))
 }
 
 func main() {
 	mux := http.NewServeMux()
 	s := NewServer()
-
+	
 	mux.HandleFunc("GET /devices", s.getDevices)
 	mux.HandleFunc("GET /healthz", s.getHealth)
 	mux.HandleFunc("GET /about", s.getInfo)
 	mux.HandleFunc("GET /ready", s.getReady)
+	mux.Handle("GET /metrics", promhttp.Handler())
+	fmt.Println("Server is running on 8080")
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }

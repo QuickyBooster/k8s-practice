@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: go-app
-          image: quickybooster/test-go-stdlib:1.0.0
+          image: quickybooster/go-app:2.0.0
           imagePullPolicy: Always
           ports:
             - name: http
@@ -55,13 +55,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-stdlib-app
+  name: go-app
   namespace: default
 spec:
+  type: NodePort
+  # type: ClusterIP
   ports:
-  - name: http
-    port: 8080
-    targetPort: http
+    - name: http
+      port: 8080
+      targetPort: http
+      nodePort: 32000
   selector:
-    app: go-stdlib-app
-  type: ClusterIP
+    app: go-app
