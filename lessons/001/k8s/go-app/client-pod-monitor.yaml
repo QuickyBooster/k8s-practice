@@ -13,5 +13,6 @@ spec:
   selector:
     matchLabels:
       app: go-app-client
+  # you have to implement prometheus metrics in order to see the metrics of the pod
   podMetricsEndpoints:
     - port: metrics

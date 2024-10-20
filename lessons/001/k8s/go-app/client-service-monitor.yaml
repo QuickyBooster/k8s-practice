@@ -16,4 +16,4 @@ spec:
       - default
   selector:
     matchLabels:
-      app.kubernetes.io/instance: go-app
+      service: go-app

@@ -57,6 +57,8 @@ kind: Service
 metadata:
   name: go-app
   namespace: default
+  labels:
+    service: go-app
 spec:
   type: NodePort
   # type: ClusterIP
